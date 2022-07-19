@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using TMPro;
@@ -13,25 +14,14 @@ public class RequestServerTime : MonoBehaviour
    public Text txtobject;
    public void SendRequest()
    {
-      var Client = new TcpListener(44444);
-      
-      while (true)
-      {
-         Client.Start();
-         var acceptClient = Client.AcceptTcpClient();
-         var currentStream = acceptClient.GetStream();
-         var currentDT = DateTime.Now;
-         var bytes = Encoding.ASCII.GetBytes($"hello {currentDT}");
-         currentStream.Read(bytes);
+      var Client = new TcpClient();
+      Client.Connect(IPAddress.Loopback, 44445);
+      var stream = Client.GetStream();
+      var buffer = new byte[200];
+      stream.Read(buffer);
+      var text = Encoding.ASCII.GetString(buffer);
+      txtobject.text = text;
 
-         var txt = txtobject;
-         txt.text = currentStream.Read(bytes).ToString();
-      }
-      
    }
-
-   public void Start()
-   {
-      SendRequest();
-   }
+   
 }
