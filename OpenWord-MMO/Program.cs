@@ -5,14 +5,16 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 
-var message = "";
+// var message = Console.ReadLine();
 UdpClient Client = new UdpClient(11114);
 
 while (true)
 {
+    
     var remoteEP = new IPEndPoint(IPAddress.Any, 11114);
     var data = Client.Receive(ref remoteEP);
+    
+    var sender = Client.Send(data, data.Length, remoteEP);
 
-    Client.Send(data, data.Length, remoteEP);
-    Client.Close();
 }
+Client.Close();
