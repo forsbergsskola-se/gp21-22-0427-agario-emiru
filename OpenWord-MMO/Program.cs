@@ -1,11 +1,23 @@
-﻿using System.Net;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 
-var message = "Hello person";
-UdpClient port = new UdpClient(444446);     // Created port
+//TODO: Need Constructor to pass port number
+
+//TODO: Receiver Method
+//TODO: Send Method that sends data on that socket
+//TODO:Close everything when done
+
+var port = Console.ReadLine();
+string data = "";
+
+UdpClient Client = new UdpClient();     // Created port
+var remoteEP = new IPEndPoint(IPAddress.Any, 44445);
 
 while (true)
 {
-    var EndPoint = new IPEndPoint(IPAddress.Any, 11000);
-    var data = port.Receive(ref EndPoint);
+    var receive = Client.Receive(ref remoteEP);
+    
 }
