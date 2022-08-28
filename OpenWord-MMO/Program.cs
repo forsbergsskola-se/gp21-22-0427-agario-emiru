@@ -7,29 +7,31 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 
-var Message = "Hello";
+var Message = " ";
 UdpClient Client = new UdpClient(11114);
+
 
 while (true)
 {
     var remoteEP = new IPEndPoint(IPAddress.Any, 11114);
     var data = Client.Receive(ref remoteEP);
+    var datta = Encoding.ASCII.GetString(data);
+    var sent = Message += datta;
 
-    var sender = Client.Send(data, data.Length, remoteEP);
-    Console.WriteLine(sender);
+    var byyte = Encoding.ASCII.GetBytes(sent);
+    
+    var sender = Client.Send(byyte, byyte.Length, remoteEP);
 
     if (sender > 20)
     {
-        break;
+        break;  
     }
 
     if (sender < 20)
     {
-        for (int i = 0; i > 1;)
-        {
-            Console.WriteLine(" ");
-        }
-        
+        Console.WriteLine(sender);
     }
+
 }
+
 Client.Close();
