@@ -15,7 +15,7 @@ public class RequestServerTime : MonoBehaviour
    public void SendRequest()
    {
       var Client = new TcpClient();
-      Client.Connect(IPAddress.Loopback, 44445);
+      Client.Connect(IPAddress.Loopback, 11113);
       var stream = Client.GetStream();
       var buffer = new byte[200];
       stream.Read(buffer);

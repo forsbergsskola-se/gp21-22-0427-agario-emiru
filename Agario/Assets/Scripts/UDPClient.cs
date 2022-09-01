@@ -7,24 +7,30 @@ using System.Text;
 using Mono.Cecil;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 
 public class UDPClient : MonoBehaviour
 {
-
-
+    public TextMeshProUGUI text;
+    public TMP_InputField TextField;
     public void forButton()
     {
-        string message = "  ";
-        UdpClient client = new UdpClient(11113);
-        var remoteEP = new IPEndPoint(IPAddress.Any, 11112);
-        
+        string message = TextField.text;
+        UdpClient client = new UdpClient(11112);
+        var remoteEP = new IPEndPoint(IPAddress.Loopback, 11114);
         var send = Encoding.ASCII.GetBytes(message);
         var sent = client.Send(send, send.Length, remoteEP);
+        var response = client.Receive(ref remoteEP);
+        message = Encoding.ASCII.GetString(response);
+        text.text = message;
 
         Debug.Log(sent);
+        
+        
     }
 
 }

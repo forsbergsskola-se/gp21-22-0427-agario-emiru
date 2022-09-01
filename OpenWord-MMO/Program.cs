@@ -8,31 +8,24 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 
-var Message = " ";
+var Message = "";
 UdpClient Client = new UdpClient(11114);
 
 
 while (true)
 {
     var remoteEP = new IPEndPoint(IPAddress.Any, 11114);
+    Console.WriteLine("Waiting for connection...");
     var data = Client.Receive(ref remoteEP);
-    var datta = Encoding.ASCII.GetString(data);
-    var sent = Message += datta;
+    Console.WriteLine($"new connection from {remoteEP}");
+    var word = Encoding.ASCII.GetString(data);
+    Console.WriteLine($"Word receieved {word}");
+    Message += word;
+    Console.WriteLine($"Complete message {Message}");
 
-    var byyte = Encoding.ASCII.GetBytes(sent);
+    var bytes = Encoding.ASCII.GetBytes(Message);
+    Client.Send(bytes, bytes.Length, remoteEP);
     
-    var sender = Client.Send(byyte, byyte.Length, remoteEP);
-
-    if (sender > 20)
-    {
-        break;  
-    }
-
-    if (sender < 20)
-    {
-        Console.WriteLine(sender);
-    }
-
 }
 
 Client.Close();
