@@ -20,6 +20,7 @@ public class UDPClient : MonoBehaviour
     public void forButton()
     {
         string message = TextField.text;
+        message.ToUpper();
         UdpClient client = new UdpClient(11112);
         var remoteEP = new IPEndPoint(IPAddress.Loopback, 11114);
         var send = Encoding.ASCII.GetBytes(message);
