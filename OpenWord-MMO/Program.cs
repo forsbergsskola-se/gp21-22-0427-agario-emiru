@@ -9,12 +9,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 var Message = "";
-var space = "  ";
+var space = " ";
 UdpClient Client = new UdpClient(11114);
 
 //TODO: you shouldnt be able to send more then 1 word
 //TODO: Shouldnt be able to send more then 20 words
-//TODO: There needs to be space between the words 
 
 while (true)
 {
@@ -24,7 +23,6 @@ while (true)
     Console.WriteLine($"new connection from {remoteEP} ");
     var word = Encoding.ASCII.GetString(data);
     Console.WriteLine($"Word receieved {word} ");
-    
     Message += word + space;
     Console.WriteLine($"Complete message {Message} ");
 
