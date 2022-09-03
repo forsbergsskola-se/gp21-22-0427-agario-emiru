@@ -11,11 +11,7 @@ using System.Xml.Xsl;
 
 var Message = "";
 var space = " ";
-int wordCount = 0;
 UdpClient Client = new UdpClient(11114);
-
-//TODO: you shouldnt be able to send more then 1 word
-//TODO: Shouldnt be able to send more then 20 words
 
 while (true)
 {
@@ -36,6 +32,10 @@ while (true)
         break;
     }
 
+    if (word.Contains(space))
+    {
+        break;
+    }
 }
 
 Client.Close();

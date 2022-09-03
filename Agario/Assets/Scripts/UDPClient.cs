@@ -38,9 +38,12 @@ public class UDPClient : MonoBehaviour
 
             Debug.Log(sent);
         }
-        
-        
-        
+
+        if (message.Length > 20)
+        {
+            Debug.Log("Error");
+        }
     }
+    
 
 }
