@@ -27,7 +27,12 @@ while (true)
     Console.WriteLine($"Complete message {Message} ");
 
     var bytes = Encoding.ASCII.GetBytes(Message);
-    Client.Send(bytes, bytes.Length, remoteEP);
+    var sent = Client.Send(bytes, bytes.Length, remoteEP);
+
+    if (sent > 20)
+    {
+        break;
+    }
     
 }
 
