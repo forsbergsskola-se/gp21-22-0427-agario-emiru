@@ -7,9 +7,11 @@ using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Xml.Xsl;
 
 var Message = "";
 var space = " ";
+int wordCount = 0;
 UdpClient Client = new UdpClient(11114);
 
 //TODO: you shouldnt be able to send more then 1 word
@@ -33,7 +35,7 @@ while (true)
     {
         break;
     }
-    
+
 }
 
 Client.Close();
