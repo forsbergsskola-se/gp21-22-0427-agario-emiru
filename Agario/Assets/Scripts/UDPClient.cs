@@ -32,9 +32,13 @@ public class UDPClient : MonoBehaviour
         {
             Debug.Log("error");
         }
-        text.text = message;
+        else
+        {
+            text.text = message;
 
-        Debug.Log(sent);
+            Debug.Log(sent);
+        }
+        
         
         
     }
