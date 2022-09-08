@@ -19,7 +19,6 @@ public class UDPClient : MonoBehaviour
     public TMP_InputField TextField;
     public void forButton()
     {
-        var space = " ";
         string message = TextField.text;
         UdpClient client = new UdpClient(11112);
         var remoteEP = new IPEndPoint(IPAddress.Loopback, 11114);
@@ -28,22 +27,13 @@ public class UDPClient : MonoBehaviour
         var response = client.Receive(ref remoteEP);
         message = Encoding.ASCII.GetString(response);
 
-        if (TextField.text.Contains(space))
-        {
-            Debug.Log("error");
-        }
-        else
-        {
-            text.text = message;
+        text.text = message;
+        Debug.Log(sent);
 
-            Debug.Log(sent);
-        }
 
-        if (message.Length > 20)
-        {
-            Debug.Log("Error");
-        }
+
+
+
     }
     
-
 }

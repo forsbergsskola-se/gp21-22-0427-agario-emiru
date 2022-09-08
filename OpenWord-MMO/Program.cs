@@ -10,7 +10,8 @@ using System.Text;
 using System.Xml.Xsl;
 
 var Message = "";
-var space = " ";
+var message2 = "";
+var space = ' ';
 UdpClient Client = new UdpClient(11114);
 
 while (true)
@@ -18,23 +19,27 @@ while (true)
     var remoteEP = new IPEndPoint(IPAddress.Any, 11114);
     Console.WriteLine("Waiting for connection...");
     var data = Client.Receive(ref remoteEP);
-    Console.WriteLine($"new connection from {remoteEP} ");
+    Console.WriteLine($"New connection from {remoteEP} ");
     var word = Encoding.ASCII.GetString(data);
     Console.WriteLine($"Word receieved {word} ");
-    Message += word + space;
-    Console.WriteLine($"Complete message {Message} ");
+    Message += word;
+    message2 += word + space;
+    
 
     var bytes = Encoding.ASCII.GetBytes(Message);
-    var sent = Client.Send(bytes, bytes.Length, remoteEP);
+    Client.Send(bytes, bytes.Length, remoteEP);
 
-    if (sent > 20)
+    //TODO: letters < 20
+    //TODO: Check for whitespaces
+
+    if (Message.Length > 20 || Message.Contains(space))
     {
+        Console.WriteLine("Error: letters over 20 is not allowed or there is whitespace");
         break;
     }
-
-    if (word.Contains(space))
+    else if (!Message.Contains(space) || Message.Length < 20)
     {
-        break;
+        Console.WriteLine($"Complete message {message2} ");
     }
 }
 
