@@ -9,8 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml.Xsl;
 
-var Message = "";
-var message2 = "";
+var Sentence = "";
 var space = ' ';
 UdpClient Client = new UdpClient(11114);
 
@@ -22,25 +21,36 @@ while (true)
     Console.WriteLine($"New connection from {remoteEP} ");
     var word = Encoding.ASCII.GetString(data);
     Console.WriteLine($"Word receieved {word} ");
-    Message += word;
-    message2 += word + space;
     
 
-    var bytes = Encoding.ASCII.GetBytes(Message);
+    
+    // message ""
+    // " hello"
+    // " hello world"
+
+    if (Sentence == "")
+    {
+        Sentence = word;
+    }
+    else
+    {
+        Sentence += space + word;
+    }
+
+    var bytes = Encoding.ASCII.GetBytes(Sentence);
     Client.Send(bytes, bytes.Length, remoteEP);
 
     //TODO: letters < 20
-    //TODO: Check for whitespaces
 
-    if (Message.Length > 20 || Message.Contains(space))
-    {
-        Console.WriteLine("Error: letters over 20 is not allowed or there is whitespace");
-        break;
-    }
-    else if (!Message.Contains(space) || Message.Length < 20)
-    {
-        Console.WriteLine($"Complete message {message2} ");
-    }
+    // if (Message.Length > 20 || Message.Contains(space))
+    // {
+    //     Console.WriteLine("Error: letters over 20 is not allowed or there is whitespace");
+    // }
+    // else if (!Message.Contains(space) || Message.Length < 20)
+    // {
+    //     
+    //     Console.WriteLine($"Complete message {Message} ");
+    // }
 }
 
 Client.Close();
