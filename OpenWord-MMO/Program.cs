@@ -6,11 +6,13 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml.Xsl;
 
 var Sentence = "";
 var space = ' ';
+var errormessage = "Error";
 UdpClient Client = new UdpClient(11114);
 
 while (true)
@@ -22,35 +24,45 @@ while (true)
     var word = Encoding.ASCII.GetString(data);
     Console.WriteLine($"Word receieved {word} ");
     
-
+    //TODO: if sentence contains errormessage THEN dont add with errormessage
     
-    // message ""
-    // " hello"
-    // " hello world"
-
-    if (Sentence == "")
+    
+    if (word.Length <= 20 && !word.Contains(space))
     {
-        Sentence = word;
+        if (Sentence == "")
+        {
+            Sentence = word;
+        }
+        else if (Sentence.Contains(errormessage))
+        {
+            Sentence = word;
+        }
+        else
+        {
+            Sentence += space + word;
+        }
     }
     else
     {
-        Sentence += space + word;
+        Console.WriteLine("Errror: this is not working ");
+        Sentence = errormessage;
+
     }
 
     var bytes = Encoding.ASCII.GetBytes(Sentence);
     Client.Send(bytes, bytes.Length, remoteEP);
-
-    //TODO: letters < 20
-
-    // if (Message.Length > 20 || Message.Contains(space))
-    // {
-    //     Console.WriteLine("Error: letters over 20 is not allowed or there is whitespace");
-    // }
-    // else if (!Message.Contains(space) || Message.Length < 20)
-    // {
-    //     
-    //     Console.WriteLine($"Complete message {Message} ");
-    // }
+    
+    // WIth the 20 character check and the contains space check:
+    //     - You want to validate the word, not the sentence
+    //     - You want to do so before changing the sentence
+    //     - Because, if the word is not valid, you do not want to change the sentence
+    //     - Also, if you do not change the sentence (which means, the word was invalid)
+    //     - Instead of sending the Sentence to the Client
+    //     - You want to send an Error Message to the Client 
+    //       IF(WORD IS VALID) THEN: CHANGE SENTENCE AND SEND SENTENCE TO CLIENT
+    //       ELSE: DO NOT CHANGE SENTENCE AND SEND ERROR MESSAGE TO CLIENT 
+    
+    
 }
 
 Client.Close();
